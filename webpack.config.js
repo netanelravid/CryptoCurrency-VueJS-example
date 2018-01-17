@@ -2,7 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');;
 
-const PROD = process.env.NODE_ENV === 'production';
+const CURRENT_ENV = process.env.NODE_ENV;
+const IS_PROD = CURRENT_ENV === 'production'
 
 config = {
     entry: './src/main.js',
@@ -43,7 +44,7 @@ config = {
         inline: true,
         hot: true
     },
-    plugins: PROD ? [
+    plugins: IS_PROD ? [
         new UglifyJsPlugin({
             sourceMap: true,
             uglifyOptions: {
@@ -51,25 +52,15 @@ config = {
                 warnings: false,
             }
         }),
-        // new webpack.LoaderOptionsPlugin({
-        //     minimize: true
-        // })
     ] : [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
     ]
 };
 
-// if (process.env.NODE_ENV === 'production') {
-//     module.exports.devtool = '#source-map'
-//     // http://vue-loader.vuejs.org/en/workflow/production.html
-//     module.exports.plugins = (module.exports.plugins || []).concat([
-//         new webpack.DefinePlugin({
-//             'process.env': {
-//                 NODE_ENV: '"production"'
-//             }
-//         }),
-//     ])
-// }
-
+config.plugins.push(
+    new webpack.DefinePlugin({
+        PRODUCTION: JSON.stringify(IS_PROD || false),
+    })
+)
 module.exports = config;
