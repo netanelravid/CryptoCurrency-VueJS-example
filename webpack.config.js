@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const CURRENT_ENV = process.env.NODE_ENV;
 const IS_PROD = CURRENT_ENV === 'production'
@@ -48,7 +49,7 @@ config = {
         new UglifyJsPlugin({
             sourceMap: true,
             uglifyOptions: {
-                ecma: 7,
+                ecma: 6,
                 warnings: false,
             }
         }),
@@ -61,6 +62,10 @@ config = {
 config.plugins.push(
     new webpack.DefinePlugin({
         PRODUCTION: JSON.stringify(IS_PROD || false),
-    })
+    }),
+    new CleanWebpackPlugin(
+        ['dist']
+    )
 )
+
 module.exports = config;
