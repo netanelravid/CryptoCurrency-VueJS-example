@@ -1,3 +1,6 @@
-# CryptoCurrency-VueJS-example
-I'm learning Vue.js right now, so this is my first project in order to get into it. Edit
-Add topics
+# CryptoCurrency Chart
+My first project in Vue.Js.
+
+Done in order to learn the framework basics.
+
+[CryptoCurrency-Chart](https://netanelravid.github.io/CryptoCurrency-VueJS-example/)
