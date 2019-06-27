@@ -14,10 +14,10 @@
       </thead>
       <tbody>
         <Coin
-          v-for="(name, index) in initial_coin_names"
+          v-for="(coin_properties, index) in coins"
           :key="index"
           :id="index + 1"
-          :name="name">
+          :coin_properties="coin_properties">
         </Coin>
       </tbody>
     </table>
@@ -32,16 +32,107 @@ export default {
   name: 'app',
   data() {
     return {
-      initial_coin_names: [
-        'bitcoin',
-        'ethereum',
-        'dash',
-        'ripple',
-        'litecoin',
-        'dogecoin',
-        'monero',
-        'iota',
-        'neo',
+      coins: [
+        {
+          'name': 'Bitcoin',
+          'shortname': 'btc',
+        },
+        {
+          'name': 'Ethereum',
+          'shortname': 'ETH',
+        },
+        {
+          'name': 'XRP',
+          'shortname': 'XRP',
+        },
+        {
+          'name': 'Litecoin',
+          'shortname': 'LTC',
+        },
+        {
+          'name': 'Bitcoin Cash',
+          'shortname': 'BCH',
+        },
+        {
+          'name': 'EOS',
+          'shortname': 'EOS',
+        },
+        {
+          'name': 'Binance Coin',
+          'shortname': 'BNB',
+        },
+        {
+          'name': 'Tether',
+          'shortname': 'USDT',
+        },
+        {
+          'name': 'Bitcoin SV',
+          'shortname': 'BSV',
+        },
+        {
+          'name': 'Cardano',
+          'shortname': 'ADA',
+        },
+        {
+          'name': 'TRON',
+          'shortname': 'TRX',
+        },
+        {
+          'name': 'Stellar',
+          'shortname': 'XLM',
+        },
+        {
+          'name': 'Monero',
+          'shortname': 'XMR',
+        },
+        {
+          'name': 'Dash',
+          'shortname': 'DASH',
+        },
+        {
+          'name': 'Cosmos',
+          'shortname': 'ATOM',
+        },
+        {
+          'name': 'NEO',
+          'shortname': 'NEO',
+        },
+        {
+          'name': 'IOTA',
+          'shortname': 'MIOTA',
+        },
+        {
+          'name': 'Ethereum Classic',
+          'shortname': 'ETC',
+        },
+        {
+          'name': 'NEM',
+          'shortname': 'XEM',
+        },
+        {
+          'name': 'Chainlink',
+          'shortname': 'LINK',
+        },
+        {
+          'name': 'Ontology',
+          'shortname': 'ONT',
+        },
+        {
+          'name': 'Zcash',
+          'shortname': 'ZEC',
+        },
+        {
+          'name': 'Tezos',
+          'shortname': 'XTZ',
+        },
+        {
+          'name': 'Maker',
+          'shortname': 'MKR',
+        },
+        {
+          'name': 'Bitcoin Gold',
+          'shortname': 'BTG',
+        },
       ],
       columns: [
         '#',
