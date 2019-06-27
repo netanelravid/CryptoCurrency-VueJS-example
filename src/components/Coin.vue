@@ -21,11 +21,11 @@
 export default {
   props: [
     'id',
-    'name',
+    'coin_properties',
   ],
   data () {
     return {
-      image: `https://files.coinmarketcap.com/static/img/coins/32x32/${this.name}.png`,
+      image: `https://static.coincap.io/assets/icons/${this.coin_properties.shortname.toLowerCase()}@2x.png`,
       price: 0,
       volume: 0,
       change: {
@@ -36,51 +36,29 @@ export default {
     }
   },
   methods: {
-    updateCoinData() {
-      const fetchCoinsData = new Promise((resolve, reject) => {
-        let request = new XMLHttpRequest();
+    async updateCoinData() {
+      const response = await fetch(`https://api.coinmarketcap.com/v1/ticker/${this.coin_properties.name}/`);
+      const coinProperties = (await response.json())[0];
 
-        request.open('GET', `https://api.coinmarketcap.com/v1/ticker/${this.name}/`);
-        request.onload = () => {
-          if (request.status == 200) {
-            const coin_data = JSON.parse(request.response)[0];
-            resolve(coin_data);
-          } else {
-            reject(Error(request.statusText));
-          }
-        }
-        request.onerror = () => {
-          reject(Error('Error fetching data.'));
-        }
-
-        request.send();
-      }
-    );
-
-    fetchCoinsData
-      .then((coin_data) => {
-        this.price = coin_data.price_usd;
-        this.volume = coin_data['24h_volume_usd'];
-        this.change.hourly = coin_data.percent_change_1h;
-        this.change.daily = coin_data.percent_change_24h;
-        this.market_cap = coin_data.market_cap_usd;
-      }).catch((error) => {
-        console.log(error);
-      })
-    },
+      this.price = coinProperties.price_usd;
+      this.volume = coinProperties['24h_volume_usd'];
+      this.change.hourly = coinProperties.percent_change_1h;
+      this.change.daily = coinProperties.percent_change_24h;
+      this.market_cap = coinProperties.market_cap_usd;
+    }
   },
-  mounted() {
+  async mounted() {
     const update_interval = 5 * 1000;
 
-    this.updateCoinData();
+    await this.updateCoinData();
     setInterval(
-      this.updateCoinData,
+      await this.updateCoinData,
       update_interval,
     );
   },
   computed: {
     displayName() {
-      return this.name.charAt(0).toUpperCase() + this.name.slice(1);
+      return this.coin_properties.name.charAt(0).toUpperCase() + this.coin_properties.name.slice(1);
     },
     displayChangeHourly() {
       return `${this.change.hourly}%`;
@@ -92,7 +70,7 @@ export default {
 }
 </script>
 
-<<style>
+<style>
 .down {
   color: #ff4040;
 }
@@ -106,5 +84,10 @@ export default {
   font-size:16px;
   font-weight:bold;
   text-align:center;
+}
+
+img {
+  width: 35px;
+  height: 35px;
 }
 </style>
